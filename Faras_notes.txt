@@ -1,15 +1,16 @@
 ** Angular CLI commands to generate components, interfaces, services...
 npm install
 npm audit fix --force
-ng serve
++ ng serve
 "open" http://localhost:4200
 ng generate component home --standalone --inline-template --skip-tests
 ng generate component housingLocation --standalone --inline-template --skip-tests
 ng generate interface housinglocation
 ng generate service housing --skip-tests
 ng generate component details --standalone --inline-template --skip-tests
-
-
+npm install -g json-server
++ json-server --watch db.json
+"open" http://localhost:3000/locations
 
 
 

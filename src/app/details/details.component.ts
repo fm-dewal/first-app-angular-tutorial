@@ -14,7 +14,7 @@ import { FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
   ],
   template: `
     <p>
-      details works! {{ housingLocationId }}
+      details work!
     </p>
     <article>
       <img class="listing-photo" [src]="housingLocation?.photo"
@@ -55,8 +55,11 @@ export class DetailsComponent {
   applyForm: FormGroup;
 
   constructor() {
-    this.housingLocationId = Number(this.route.snapshot.params['id']);
-    this.housingLocation = this.housingService.getHousingLocationById(this.housingLocationId);
+    const housingLocationId = parseInt(this.route.snapshot.params['id'], 9);
+    this.housingService.getHousingLocationById(housingLocationId).then(housingLocation => {
+      this.housingLocation = housingLocation;
+    });
+    
     this.applyForm = new FormGroup({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
