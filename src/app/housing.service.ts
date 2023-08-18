@@ -15,13 +15,26 @@ export class HousingService {
     return await data.json() ?? [];
   }
 
-  async getHousingLocationById(id: number) : Promise<HousingLocation | undefined> {
+  async getHousingLocationById(id: number) : Promise<HousingLocation> {
     const data = await fetch(`${this.url}/${id}`);
-    return await data.json() ?? {};
+    return await data.json() ?? {
+      id: 0,
+      name: "",
+      city: "",
+      state: "",
+      photo: "",
+      availableUnits: 0,
+      wifi: false,
+      laundry: false,
+    };
   }
 
   submitApplication(firstName: string, lastName: string, email:string) {
     console.log('Homes application received: firstName: \
     ', firstName, ', lastName: ', lastName, ', email: ', email, '.');
+  }
+
+  updateAvailability(id:number, unitsAvailable: number) {
+    console.log(id, unitsAvailable);
   }
 }

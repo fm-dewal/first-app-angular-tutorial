@@ -31,7 +31,7 @@
     margin-bottom: 20px;
 }
 
-.listing-fetures li {
+.listing-features li {
     font-size: 14pt;
 }
 
@@ -63,6 +63,12 @@ input {
     border-top: none;
     border-left: none;
     border-bottom: solid .3px;
+}
+
+.inline-input {
+    font-size: 14pt;
+    width: 40px;
+    display: inline;
 }
 
 @media(max-width: 1024px) {
