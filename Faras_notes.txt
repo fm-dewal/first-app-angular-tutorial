@@ -1,5 +1,13 @@
+** Angular CLI commands to generate components, interfaces, services...
 npm install
 npm audit fix --force
+ng serve
+"open" http://localhost:4200
+ng generate component home --standalone --inline-template --skip-tests
+ng generate component housingLocation --standalone --inline-template --skip-tests
+ng generate interface housinglocation
+ng generate service housing --skip-tests
+ng generate component details --standalone --inline-template --skip-tests
 
 
 
@@ -7,6 +15,7 @@ npm audit fix --force
 
 
 
+** Check linux compatibility and download a specific version for nodejs
 uname -a
 lsb_release -a
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs
