@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HousingLocation } from './housing-location';
+import { MessagesService } from './messages.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HousingService {
 
-  constructor() { }
+  constructor(private messageService: MessagesService) {}//private httpClient: HttpClient){}//, ) { }
+  
   readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
-  url = 'http://localhost:3000/locations';
+  locationsUrl = 'http://localhost:3000/locations';
+
+  private log(message: string) {
+    this.messageService.add(message);
+  }
 
   async getAllHousingLocations(): Promise<HousingLocation[]> {
-    const data = await fetch(this.url);
+    this.messageService.add("HousingService: fetching all housing locations");
+    const data = await fetch(this.locationsUrl);
     return await data.json() ?? [];
   }
 
   async getHousingLocationById(id: number) : Promise<HousingLocation> {
-    const data = await fetch(`${this.url}/${id}`);
+    this.messageService.add(`HousingService: fetching housing location for id ${id}`);
+    const data = await fetch(`${this.locationsUrl}/${id}`);
     return await data.json() ?? {
       id: 0,
       name: "",
@@ -30,11 +38,10 @@ export class HousingService {
   }
 
   submitApplication(firstName: string, lastName: string, email:string) {
-    console.log('Homes application received: firstName: \
-    ', firstName, ', lastName: ', lastName, ', email: ', email, '.');
+    this.messageService.add(`Homes application received: firstName: ${firstName} lastName: ${lastName} email: ${email}.`);
   }
 
   updateAvailability(id:number, unitsAvailable: number) {
-    console.log(id, unitsAvailable);
+    this.messageService.add(`Update availability for ${id} to ${unitsAvailable}`);
   }
 }
