@@ -27,6 +27,7 @@ export class DetailsComponent {
     city: "",
     state: "",
     photo: "",
+    ownerId: 0,
     availableUnits: 0,
     wifi: false,
     laundry: false,

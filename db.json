@@ -100,5 +100,28 @@
       "wifi": true,
       "laundry": true
     }
+  ],
+  "users": [
+    {
+      "id": 0,
+      "name": "Faras",
+      "password": "3reFDX#V345",
+      "role": "administrator",
+      "active": true
+    },
+    {
+      "id": 1,
+      "name": "Patel",
+      "password": "rtr934SS@JFS",
+      "role": "owner",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Gupta",
+      "password": "sdgsf*fdk324",
+      "role": "owner",
+      "active": true
+    }
   ]
 }
