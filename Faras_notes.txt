@@ -11,6 +11,7 @@ ng generate component details --standalone --inline-template --skip-tests
 npm install -g json-server
 + json-server --watch db.json
 "open" http://localhost:3000/locations
+ng generate module app-routing --flat --module=app
 
 
 

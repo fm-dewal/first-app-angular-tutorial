@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../housing-location';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { MessagesService } from '../messages.service';
 
 @Component({
   selector: 'app-details',
@@ -31,19 +31,21 @@ export class DetailsComponent {
     wifi: false,
     laundry: false,
   };
-  applyForm: FormGroup;
+  applyForm: FormGroup = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+    email: new FormControl('')
+  });;
 
-  constructor() {
+  constructor(private messageService: MessagesService) { }
+
+  ngOnInit() : void {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
-    this.housingService.getHousingLocationById(housingLocationId).then(housingLocation => {
+    this.housingService.getHousingLocationById(housingLocationId).subscribe(housingLocation => {
       this.housingLocation = housingLocation;
     });
-    
-    this.applyForm = new FormGroup({
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
-      email: new FormControl('')
-    });
+    this.messageService.add(
+      `DetailsComponent: Received detail request for listing ID: ${housingLocationId}`);
   }
 
   submitApplication() {

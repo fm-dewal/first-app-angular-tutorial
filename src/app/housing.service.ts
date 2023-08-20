@@ -1,40 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HousingLocation } from './housing-location';
-
+import { MessagesService } from './messages.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class HousingService {
+export class HousingService { 
+  locationsUrl = 'http://localhost:3000/locations';
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
+  
+  constructor(
+    private messageService: MessagesService, private http: HttpClient) {}//private httpClient: HttpClient){}//, ) { }
+  
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      this.messageService.add(`${operation} failed: ${error.message}`);
 
-  constructor() { }
-  readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
-  url = 'http://localhost:3000/locations';
-
-  async getAllHousingLocations(): Promise<HousingLocation[]> {
-    const data = await fetch(this.url);
-    return await data.json() ?? [];
-  }
-
-  async getHousingLocationById(id: number) : Promise<HousingLocation> {
-    const data = await fetch(`${this.url}/${id}`);
-    return await data.json() ?? {
-      id: 0,
-      name: "",
-      city: "",
-      state: "",
-      photo: "",
-      availableUnits: 0,
-      wifi: false,
-      laundry: false,
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
     };
   }
 
+  getAllHousingLocations(): Observable<HousingLocation[]> {
+    return this.http.get<HousingLocation[]>(this.locationsUrl)
+  }
+
+  getHousingLocationById(id: number): Observable<HousingLocation> {
+    this.messageService.add(`HousingService: fetching housing location for id ${id}`);
+    return this.http.get<HousingLocation>(`${this.locationsUrl}/${id}`).pipe(
+      tap(_ => this.messageService.add(`Housing Service: Fetched location id=${id}`)),
+      catchError(this.handleError<HousingLocation>(`getHero id=${id}`))
+    );
+  }
+
   submitApplication(firstName: string, lastName: string, email:string) {
-    console.log('Homes application received: firstName: \
-    ', firstName, ', lastName: ', lastName, ', email: ', email, '.');
+    this.messageService.add(`Homes application received: firstName: ${firstName} lastName: ${lastName} email: ${email}.`);
   }
 
   updateAvailability(id:number, unitsAvailable: number) {
-    console.log(id, unitsAvailable);
+    this.messageService.add(`Update availability for home ID ${id} to ${unitsAvailable}`);
+    this.http.patch<HousingLocation>(`${this.locationsUrl}/${id}`, {availableUnits: unitsAvailable}, 
+      {headers: this.headers})
+    .subscribe();
   }
 }
