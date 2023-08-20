@@ -5,6 +5,7 @@ import { HousingLocation } from '../housing-location';
 import { HousingService } from '../housing.service';
 import { MessagesService } from '../messages.service';
 import { MessagesComponent } from '../messages/messages.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import { MessagesComponent } from '../messages/messages.component';
   imports: [
     CommonModule,
     HousingLocationComponent,
-    MessagesComponent
+    MessagesComponent,
+    HttpClientModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -24,7 +26,7 @@ export class HomeComponent {
   constructor(private housingService: HousingService, private messageService: MessagesService) { }
 
   ngOnInit(): void {
-    this.housingService.getAllHousingLocations().then((housingLocationList:HousingLocation[]) => {
+    this.housingService.getAllHousingLocations().subscribe((housingLocationList:HousingLocation[]) => {
         this.housingLocationList = housingLocationList;
         this.filteredLocationList = housingLocationList;  
       });

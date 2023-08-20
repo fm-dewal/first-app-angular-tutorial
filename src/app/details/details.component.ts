@@ -41,7 +41,7 @@ export class DetailsComponent {
 
   ngOnInit() : void {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
-    this.housingService.getHousingLocationById(housingLocationId).then(housingLocation => {
+    this.housingService.getHousingLocationById(housingLocationId).subscribe(housingLocation => {
       this.housingLocation = housingLocation;
     });
     this.messageService.add(
